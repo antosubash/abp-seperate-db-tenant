@@ -1,0 +1,36 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.TenantManagement
+@model Acme.BookStore.Web.Pages.CustomTenant.IndexModel
+@inject IAuthorizationService Authorization
+@{
+    ViewBag.Title = "Tenants";
+}
+
+@section styles {
+    <abp-style src="/Pages/CustomTenant/Index.css" />
+}
+
+@section scripts {
+    <abp-script src="/client-proxies/multi-tenancy-proxy.js" />
+    <abp-script src="/Pages/CustomTenant/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>Tenants</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+                @if (await Authorization.IsGrantedAsync(TenantManagementPermissions.Tenants.Create))
+                {
+                    <abp-button id="NewTenantButton" text="New Tenant" icon="plus" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="TenantsTable" class="nowrap" width="100%"></abp-table>
+    </abp-card-body>
+</abp-card>

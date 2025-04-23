@@ -1,0 +1,23 @@
+@page "{id:Guid}"
+@model Acme.BookStore.Web.Pages.CustomTenant.EditModel
+@{
+    ViewBag.Title = "Edit Tenant";
+}
+
+<form method="post" id="EditTenantForm">
+    <abp-card>
+        <abp-card-header>
+            <abp-card-title>Edit Tenant - @Model.TenantUpdateDto.Name</abp-card-title>
+        </abp-card-header>
+        <abp-card-body>
+            <input asp-for="TenantUpdateDto.Id" type="hidden" />
+            <abp-input asp-for="TenantUpdateDto.Name" label="Tenant Name" />
+            <abp-input asp-for="TenantUpdateDto.ConnectionString" label="Database Connection String" />
+        </abp-card-body>
+        <abp-card-footer>
+            <abp-button type="submit" button-type="Primary" text="Save" />
+            <abp-button type="button" button-type="Secondary" text="Cancel"
+                        asp-page="/CustomTenant" />
+        </abp-card-footer>
+    </abp-card>
+</form>

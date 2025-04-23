@@ -26,6 +26,10 @@ public class EntityFrameworkCoreBookStoreDbSchemaMigrator
          * current scope.
          */
 
-        await _serviceProvider.GetRequiredService<BookStoreDbContext>().Database.MigrateAsync();
+        var dbContext = _serviceProvider.GetRequiredService<BookStoreDbContext>();
+        var connectionString = dbContext.Database.GetDbConnection().ConnectionString;
+        Console.WriteLine($"Resolved Connection String: {connectionString}");
+        await dbContext.Database.MigrateAsync();
+
     }
 }

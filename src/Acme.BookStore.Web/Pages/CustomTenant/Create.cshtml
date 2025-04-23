@@ -1,0 +1,24 @@
+@page
+@model Acme.BookStore.Web.Pages.CustomTenant.CreateModel
+@{
+    ViewBag.Title = "New Tenant";
+}
+
+<form method="post" id="CreateTenantForm">
+    <abp-card>
+        <abp-card-header>
+            <abp-card-title>New Tenant</abp-card-title>
+        </abp-card-header>
+        <abp-card-body>
+            <abp-input asp-for="TenantCreateDto.Name" label="Tenant Name" />
+            <abp-input asp-for="TenantCreateDto.AdminEmailAddress" label="Admin Email Address" />
+            <abp-input asp-for="TenantCreateDto.AdminPassword" type="password" label="Admin Password" />
+            <abp-input asp-for="TenantCreateDto.ConnectionString" label="Database Connection String" />
+        </abp-card-body>
+        <abp-card-footer>
+            <abp-button type="submit" button-type="Primary" text="Save" />
+            <abp-button type="link" button-type="Secondary" text="Cancel" 
+                        asp-page="/CustomTenant/Index" />
+        </abp-card-footer>
+    </abp-card>
+</form>
