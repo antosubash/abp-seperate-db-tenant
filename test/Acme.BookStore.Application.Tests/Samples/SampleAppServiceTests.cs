@@ -1,5 +1,5 @@
-﻿using Shouldly;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shouldly;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Xunit;
@@ -11,7 +11,8 @@ namespace Acme.BookStore.Samples;
  * (like IIdentityUserAppService here).
  * Only test your own application services.
  */
-public abstract class SampleAppServiceTests<TStartupModule> : BookStoreApplicationTestBase<TStartupModule>
+public abstract class SampleAppServiceTests<TStartupModule>
+    : BookStoreApplicationTestBase<TStartupModule>
     where TStartupModule : IAbpModule
 {
     private readonly IIdentityUserAppService _userAppService;

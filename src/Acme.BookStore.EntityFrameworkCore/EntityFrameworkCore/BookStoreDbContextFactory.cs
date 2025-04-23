@@ -13,19 +13,22 @@ public class BookStoreDbContextFactory : IDesignTimeDbContextFactory<BookStoreDb
     public BookStoreDbContext CreateDbContext(string[] args)
     {
         var configuration = BuildConfiguration();
-        
+
         BookStoreEfCoreEntityExtensionMappings.Configure();
 
-        var builder = new DbContextOptionsBuilder<BookStoreDbContext>()
-            .UseSqlServer(configuration.GetConnectionString("Default"));
-        
+        var builder = new DbContextOptionsBuilder<BookStoreDbContext>().UseSqlServer(
+            configuration.GetConnectionString("Default")
+        );
+
         return new BookStoreDbContext(builder.Options);
     }
 
     private static IConfigurationRoot BuildConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Acme.BookStore.DbMigrator/"))
+            .SetBasePath(
+                Path.Combine(Directory.GetCurrentDirectory(), "../Acme.BookStore.DbMigrator/")
+            )
             .AddJsonFile("appsettings.json", optional: false);
 
         return builder.Build();

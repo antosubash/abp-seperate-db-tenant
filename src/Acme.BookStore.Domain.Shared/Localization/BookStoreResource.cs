@@ -3,7 +3,4 @@
 namespace Acme.BookStore.Localization;
 
 [LocalizationResourceName("BookStore")]
-public class BookStoreResource
-{
-
-}
+public class BookStoreResource { }

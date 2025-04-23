@@ -16,11 +16,11 @@ class Program
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
 #if DEBUG
-                .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Debug)
+            .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Debug)
 #else
-                .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Information)
+            .MinimumLevel.Override("Acme.BookStore", LogEventLevel.Information)
 #endif
-                .Enrich.FromLogContext()
+            .Enrich.FromLogContext()
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
@@ -32,8 +32,10 @@ class Program
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
             .ConfigureLogging((context, logging) => logging.ClearProviders())
-            .ConfigureServices((hostContext, services) =>
-            {
-                services.AddHostedService<DbMigratorHostedService>();
-            });
+            .ConfigureServices(
+                (hostContext, services) =>
+                {
+                    services.AddHostedService<DbMigratorHostedService>();
+                }
+            );
 }

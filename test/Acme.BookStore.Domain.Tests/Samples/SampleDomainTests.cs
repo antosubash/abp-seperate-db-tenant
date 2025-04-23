@@ -33,8 +33,7 @@ public abstract class SampleDomainTests<TStartupModule> : BookStoreDomainTestBas
          */
         await WithUnitOfWorkAsync(async () =>
         {
-            adminUser = await _identityUserRepository
-                .FindByNormalizedUserNameAsync("ADMIN");
+            adminUser = await _identityUserRepository.FindByNormalizedUserNameAsync("ADMIN");
 
             await _identityUserManager.SetEmailAsync(adminUser, "newemail@abp.io");
             await _identityUserRepository.UpdateAsync(adminUser);

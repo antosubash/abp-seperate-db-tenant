@@ -9,9 +9,9 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
@@ -20,10 +20,10 @@ namespace Acme.BookStore.EntityFrameworkCore;
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
-public class BookStoreDbContext :
-    AbpDbContext<BookStoreDbContext>,
-    ITenantManagementDbContext,
-    IIdentityDbContext
+public class BookStoreDbContext
+    : AbpDbContext<BookStoreDbContext>,
+        ITenantManagementDbContext,
+        IIdentityDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
@@ -58,10 +58,7 @@ public class BookStoreDbContext :
     #endregion
 
     public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options)
-        : base(options)
-    {
-
-    }
+        : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -78,7 +75,7 @@ public class BookStoreDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
-        
+
         /* Configure your own tables/entities inside here */
 
         //builder.Entity<YourEntity>(b =>

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Globalization;
+using Acme.BookStore.EntityFrameworkCore;
+using Acme.BookStore.Web;
+using Acme.BookStore.Web.Menus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Acme.BookStore.EntityFrameworkCore;
-using Acme.BookStore.Web;
-using Acme.BookStore.Web.Menus;
 using Volo.Abp.AspNetCore.TestBase;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
@@ -32,7 +32,9 @@ public class BookStoreWebTestModule : AbpModule
 
         context.Services.PreConfigure<IMvcBuilder>(builder =>
         {
-            builder.PartManager.ApplicationParts.Add(new CompiledRazorAssemblyPart(typeof(BookStoreWebModule).Assembly));
+            builder.PartManager.ApplicationParts.Add(
+                new CompiledRazorAssemblyPart(typeof(BookStoreWebModule).Assembly)
+            );
         });
 
         context.Services.GetPreConfigureActions<OpenIddictServerBuilder>().Clear();

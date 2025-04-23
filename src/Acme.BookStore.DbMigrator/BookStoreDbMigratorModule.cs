@@ -9,6 +9,4 @@ namespace Acme.BookStore.DbMigrator;
     typeof(BookStoreEntityFrameworkCoreModule),
     typeof(BookStoreApplicationContractsModule)
 )]
-public class BookStoreDbMigratorModule : AbpModule
-{
-}
+public class BookStoreDbMigratorModule : AbpModule { }

@@ -7,7 +7,9 @@ public class ChangeIdentityPasswordPolicySettingDefinitionProvider : SettingDefi
 {
     public override void Define(ISettingDefinitionContext context)
     {
-        var requireNonAlphanumeric = context.GetOrNull(IdentitySettingNames.Password.RequireNonAlphanumeric);
+        var requireNonAlphanumeric = context.GetOrNull(
+            IdentitySettingNames.Password.RequireNonAlphanumeric
+        );
         if (requireNonAlphanumeric != null)
         {
             requireNonAlphanumeric.DefaultValue = false.ToString();

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acme.BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Acme.BookStore.Data;
 using Volo.Abp.DependencyInjection;
 
 namespace Acme.BookStore.EntityFrameworkCore;
 
 public class EntityFrameworkCoreBookStoreDbSchemaMigrator
-    : IBookStoreDbSchemaMigrator, ITransientDependency
+    : IBookStoreDbSchemaMigrator,
+        ITransientDependency
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -25,9 +26,6 @@ public class EntityFrameworkCoreBookStoreDbSchemaMigrator
          * current scope.
          */
 
-        await _serviceProvider
-            .GetRequiredService<BookStoreDbContext>()
-            .Database
-            .MigrateAsync();
+        await _serviceProvider.GetRequiredService<BookStoreDbContext>().Database.MigrateAsync();
     }
 }

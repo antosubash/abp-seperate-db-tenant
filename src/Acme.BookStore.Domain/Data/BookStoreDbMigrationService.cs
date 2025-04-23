@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Acme.BookStore.MultiTenancy;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
-using Acme.BookStore.MultiTenancy;
 using Volo.Abp.TenantManagement;
 
 namespace Acme.BookStore.Data;
@@ -29,7 +29,8 @@ public class BookStoreDbMigrationService : ITransientDependency
         IDataSeeder dataSeeder,
         ITenantRepository tenantRepository,
         ICurrentTenant currentTenant,
-        IEnumerable<IBookStoreDbSchemaMigrator> dbSchemaMigrators)
+        IEnumerable<IBookStoreDbSchemaMigrator> dbSchemaMigrators
+    )
     {
         _dataSeeder = dataSeeder;
         _tenantRepository = tenantRepository;
@@ -57,7 +58,6 @@ public class BookStoreDbMigrationService : ITransientDependency
 
         if (MultiTenancyConsts.IsEnabled)
         {
-            
             var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
 
             var migratedDatabaseSchemas = new HashSet<string>();
@@ -67,8 +67,8 @@ public class BookStoreDbMigrationService : ITransientDependency
                 {
                     if (tenant.ConnectionStrings.Any())
                     {
-                        var tenantConnectionStrings = tenant.ConnectionStrings
-                            .Select(x => x.Value)
+                        var tenantConnectionStrings = tenant
+                            .ConnectionStrings.Select(x => x.Value)
                             .ToList();
 
                         if (!migratedDatabaseSchemas.IsSupersetOf(tenantConnectionStrings))
@@ -82,7 +82,9 @@ public class BookStoreDbMigrationService : ITransientDependency
                     await SeedDataAsync(tenant);
                 }
 
-                Logger.LogInformation($"Successfully completed {tenant.Name} tenant database migrations.");
+                Logger.LogInformation(
+                    $"Successfully completed {tenant.Name} tenant database migrations."
+                );
             }
 
             Logger.LogInformation("Successfully completed all database migrations.");
@@ -93,8 +95,9 @@ public class BookStoreDbMigrationService : ITransientDependency
     private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)
     {
         Logger.LogInformation(
-            $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database...");
-        
+            $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database..."
+        );
+
         foreach (var migrator in _dbSchemaMigrators)
         {
             await migrator.MigrateAsync();
@@ -103,13 +106,20 @@ public class BookStoreDbMigrationService : ITransientDependency
 
     private async Task SeedDataAsync(Tenant? tenant = null)
     {
-        Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
-        
-        await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
-            .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName,
-                BookStoreConsts.AdminEmailDefaultValue)
-            .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName,
-                BookStoreConsts.AdminPasswordDefaultValue)
+        Logger.LogInformation(
+            $"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed..."
+        );
+
+        await _dataSeeder.SeedAsync(
+            new DataSeedContext(tenant?.Id)
+                .WithProperty(
+                    IdentityDataSeedContributor.AdminEmailPropertyName,
+                    BookStoreConsts.AdminEmailDefaultValue
+                )
+                .WithProperty(
+                    IdentityDataSeedContributor.AdminPasswordPropertyName,
+                    BookStoreConsts.AdminPasswordDefaultValue
+                )
         );
     }
 
@@ -157,7 +167,8 @@ public class BookStoreDbMigrationService : ITransientDependency
     {
         var dbMigrationsProjectFolder = GetEntityFrameworkCoreProjectFolderPath();
 
-        return dbMigrationsProjectFolder != null && Directory.Exists(Path.Combine(dbMigrationsProjectFolder, "Migrations"));
+        return dbMigrationsProjectFolder != null
+            && Directory.Exists(Path.Combine(dbMigrationsProjectFolder, "Migrations"));
     }
 
     private void AddInitialMigration()
@@ -167,7 +178,10 @@ public class BookStoreDbMigrationService : ITransientDependency
         string argumentPrefix;
         string fileName;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (
+            RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+            || RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+        )
         {
             argumentPrefix = "-c";
             fileName = "/bin/bash";
@@ -178,7 +192,8 @@ public class BookStoreDbMigrationService : ITransientDependency
             fileName = "cmd.exe";
         }
 
-        var procStartInfo = new ProcessStartInfo(fileName,
+        var procStartInfo = new ProcessStartInfo(
+            fileName,
             $"{argumentPrefix} \"abp create-migration-and-run-migrator \"{GetEntityFrameworkCoreProjectFolderPath()}\"\""
         );
 
@@ -203,7 +218,8 @@ public class BookStoreDbMigrationService : ITransientDependency
 
         var srcDirectoryPath = Path.Combine(slnDirectoryPath, "src");
 
-        return Directory.GetDirectories(srcDirectoryPath)
+        return Directory
+            .GetDirectories(srcDirectoryPath)
             .FirstOrDefault(d => d.EndsWith(".EntityFrameworkCore"));
     }
 
@@ -215,7 +231,12 @@ public class BookStoreDbMigrationService : ITransientDependency
         {
             currentDirectory = Directory.GetParent(currentDirectory.FullName);
 
-            if (currentDirectory != null && Directory.GetFiles(currentDirectory.FullName).FirstOrDefault(f => f.EndsWith(".sln")) != null)
+            if (
+                currentDirectory != null
+                && Directory
+                    .GetFiles(currentDirectory.FullName)
+                    .FirstOrDefault(f => f.EndsWith(".sln")) != null
+            )
             {
                 return currentDirectory.FullName;
             }

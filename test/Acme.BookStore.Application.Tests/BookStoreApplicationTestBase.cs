@@ -2,8 +2,6 @@
 
 namespace Acme.BookStore;
 
-public abstract class BookStoreApplicationTestBase<TStartupModule> : BookStoreTestBase<TStartupModule>
-    where TStartupModule : IAbpModule
-{
-
-}
+public abstract class BookStoreApplicationTestBase<TStartupModule>
+    : BookStoreTestBase<TStartupModule>
+    where TStartupModule : IAbpModule { }

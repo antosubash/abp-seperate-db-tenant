@@ -2,7 +2,4 @@
 
 namespace Acme.BookStore;
 
-public class BookStoreWebCollection : BookStoreEntityFrameworkCoreCollectionFixtureBase
-{
-
-}
+public class BookStoreWebCollection : BookStoreEntityFrameworkCoreCollectionFixtureBase { }

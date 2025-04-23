@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Volo.Abp.Account;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
-using Volo.Abp.Account;
 
 namespace Acme.BookStore.HttpApi.Client.ConsoleTestApp;
 
@@ -13,7 +13,8 @@ public class ClientDemoService : ITransientDependency
 
     public ClientDemoService(
         IProfileAppService profileAppService,
-        IIdentityUserAppService identityUserAppService)
+        IIdentityUserAppService identityUserAppService
+    )
     {
         _profileAppService = profileAppService;
         _identityUserAppService = identityUserAppService;

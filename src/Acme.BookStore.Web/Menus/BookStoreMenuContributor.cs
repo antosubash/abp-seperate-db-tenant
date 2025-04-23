@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using Acme.BookStore.Localization;
-using Acme.BookStore.Permissions;
 using Acme.BookStore.MultiTenancy;
-using Volo.Abp.SettingManagement.Web.Navigation;
+using Acme.BookStore.Permissions;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
-using Volo.Abp.UI.Navigation;
+using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
+using Volo.Abp.UI.Navigation;
 
 namespace Acme.BookStore.Web.Menus;
 
@@ -35,14 +35,13 @@ public class BookStoreMenuContributor : IMenuContributor
             )
         );
 
-
         //Administration
         var administration = context.Menu.GetAdministration();
         administration.Order = 6;
 
         //Administration->Identity
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
-    
+
         if (MultiTenancyConsts.IsEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
@@ -51,12 +50,12 @@ public class BookStoreMenuContributor : IMenuContributor
         {
             administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
         }
-        
+
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
 
         //Administration->Settings
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 7);
-        
+
         return Task.CompletedTask;
     }
 }

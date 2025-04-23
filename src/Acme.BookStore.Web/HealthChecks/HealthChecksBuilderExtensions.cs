@@ -14,7 +14,10 @@ public static class HealthChecksBuilderExtensions
     {
         // Add your health checks here
         var healthChecksBuilder = services.AddHealthChecks();
-        healthChecksBuilder.AddCheck<BookStoreDatabaseCheck>("BookStore DbContext Check", tags: new string[] { "database" });
+        healthChecksBuilder.AddCheck<BookStoreDatabaseCheck>(
+            "BookStore DbContext Check",
+            tags: new string[] { "database" }
+        );
 
         services.ConfigureHealthCheckEndpoint("/health-status");
 
@@ -42,7 +45,10 @@ public static class HealthChecksBuilderExtensions
         });
     }
 
-    private static IServiceCollection ConfigureHealthCheckEndpoint(this IServiceCollection services, string path)
+    private static IServiceCollection ConfigureHealthCheckEndpoint(
+        this IServiceCollection services,
+        string path
+    )
     {
         services.Configure<AbpEndpointRouterOptions>(options =>
         {
@@ -55,14 +61,18 @@ public static class HealthChecksBuilderExtensions
                         Predicate = _ => true,
                         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                         AllowCachingResponses = false,
-                    });
+                    }
+                );
             });
         });
 
         return services;
     }
 
-    private static IServiceCollection MapHealthChecksUiEndpoints(this IServiceCollection services, Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null)
+    private static IServiceCollection MapHealthChecksUiEndpoints(
+        this IServiceCollection services,
+        Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null
+    )
     {
         services.Configure<AbpEndpointRouterOptions>(routerOptions =>
         {

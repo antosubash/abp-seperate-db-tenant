@@ -37,7 +37,6 @@ public class BookStoreEntityFrameworkCoreTestModule : AbpModule
         context.Services.AddAlwaysDisableUnitOfWorkTransaction();
 
         ConfigureInMemorySqlite(context.Services);
-
     }
 
     private void ConfigureInMemorySqlite(IServiceCollection services)

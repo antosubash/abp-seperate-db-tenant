@@ -4,7 +4,5 @@ using Xunit;
 namespace Acme.BookStore.EntityFrameworkCore.Applications;
 
 [Collection(BookStoreTestConsts.CollectionDefinitionName)]
-public class EfCoreSampleAppServiceTests : SampleAppServiceTests<BookStoreEntityFrameworkCoreTestModule>
-{
-
-}
+public class EfCoreSampleAppServiceTests
+    : SampleAppServiceTests<BookStoreEntityFrameworkCoreTestModule> { }

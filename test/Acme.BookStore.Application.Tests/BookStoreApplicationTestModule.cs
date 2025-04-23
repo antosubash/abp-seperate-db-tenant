@@ -2,11 +2,5 @@
 
 namespace Acme.BookStore;
 
-[DependsOn(
-    typeof(BookStoreApplicationModule),
-    typeof(BookStoreDomainTestModule)
-)]
-public class BookStoreApplicationTestModule : AbpModule
-{
-
-}
+[DependsOn(typeof(BookStoreApplicationModule), typeof(BookStoreDomainTestModule))]
+public class BookStoreApplicationTestModule : AbpModule { }
