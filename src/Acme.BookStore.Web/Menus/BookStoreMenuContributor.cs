@@ -5,6 +5,7 @@ using Acme.BookStore.Permissions;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
+using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
 
@@ -35,6 +36,21 @@ public class BookStoreMenuContributor : IMenuContributor
             )
         );
 
+        //Custom Tenant Management
+        if (MultiTenancyConsts.IsEnabled)
+        {
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    "CustomTenant",
+                    l["Tenants"],
+                    "~/CustomTenant",
+                    icon: "fa fa-building",
+                    order: 2,
+                    requiredPermissionName: TenantManagementPermissions.Tenants.Default
+                )
+            );
+        }
+
         //Administration
         var administration = context.Menu.GetAdministration();
         administration.Order = 6;
@@ -52,9 +68,6 @@ public class BookStoreMenuContributor : IMenuContributor
         }
 
         administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 3);
-
-        //Administration->Settings
-        administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 7);
 
         return Task.CompletedTask;
     }

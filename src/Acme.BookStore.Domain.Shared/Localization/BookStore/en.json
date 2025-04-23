@@ -4,6 +4,19 @@
     "AppName": "BookStore",
     "Menu:Home": "Home",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
-    "Welcome": "Welcome"
+    "Welcome": "Welcome",
+    "Tenants": "Tenants",
+    "TenantName": "Tenant Name",
+    "Actions": "Actions",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "NewTenant": "New Tenant",
+    "AdminEmailAddress": "Admin Email Address",
+    "AdminPassword": "Admin Password",
+    "DatabaseConnectionString": "Database Connection String",
+    "TenantDeletionConfirmationMessage": "Tenant '{0}' will be deleted. Do you confirm?",
+    "SuccessfullyDeleted": "Successfully deleted",
+    "SuccessfullyCreated": "Successfully created",
+    "SuccessfullyUpdated": "Successfully updated"
   }
 }
